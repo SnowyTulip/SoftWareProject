@@ -23,6 +23,7 @@ def trans_time(v_str):
     return ret_time
  
 def get_bili_comment(weiboID_list,max_page):
+    session = requests.Session()
     for weibo_id in weiboID_list:
  
         #保存文件名
@@ -34,7 +35,7 @@ def get_bili_comment(weiboID_list,max_page):
         #请求头
         headers = {
             #不加cookie只能爬一页
-            'cookie':'_T_WM=85512716398; MLOGIN=1; WEIBOCN_FROM=1110006030; SUBP=0033WrSXqPxfM725Ws9jqgMF55529P9D9WhCOXBy5U8P5383oK1HIpuJ5JpX5K-hUgL.FoeNS0-7Soq4eh52dJLoI05LxKML1h2LBo5LxKnL1h.LBozLxK.L1heL1h2LxK.L1hML1K2LxK.LBKqL1KLLdJBt; SCF=Atosv1bP171uPpe-v2gM7VqThsPml_n6r5qB4k3MpzdPeqKMqsrw4EltS3mxWfSA90xpJb0XfNQho4dQOd0aEkY.; SUB=_2A25IcrG6DeRhGeVJ7FcR9ijFyzyIHXVrDktyrDV6PUJbktANLUOikW1NT8L7n4MHs5dg7WuqJfnt8w0H7OS5aok6; SSOLoginState=1702281706; ALF=1704873706; XSRF-TOKEN=9f6e6c',
+            # 'cookie':'_T_WM=85512716398; MLOGIN=1; WEIBOCN_FROM=1110006030; SUBP=0033WrSXqPxfM725Ws9jqgMF55529P9D9WhCOXBy5U8P5383oK1HIpuJ5JpX5K-hUgL.FoeNS0-7Soq4eh52dJLoI05LxKML1h2LBo5LxKnL1h.LBozLxK.L1heL1h2LxK.L1hML1K2LxK.LBKqL1KLLdJBt; SCF=Atosv1bP171uPpe-v2gM7VqThsPml_n6r5qB4k3MpzdPeqKMqsrw4EltS3mxWfSA90xpJb0XfNQho4dQOd0aEkY.; SUB=_2A25IcrG6DeRhGeVJ7FcR9ijFyzyIHXVrDktyrDV6PUJbktANLUOikW1NT8L7n4MHs5dg7WuqJfnt8w0H7OS5aok6; SSOLoginState=1702281706; ALF=1704873706; XSRF-TOKEN=9f6e6c',
             "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36",
             'X-Xsrf-Token':'a62fb7'
         }
@@ -52,8 +53,8 @@ def get_bili_comment(weiboID_list,max_page):
                     break
                 url='https://m.weibo.cn/comments/hotflow?id={}&mid={}&max_id={}&max_id_type=0'.format(weibo_id,weibo_id,max_id)
             print(url)
-            time.sleep(random.random()*10)
-            response = requests.get(url, headers=headers)
+            time.sleep(random.random()*5)
+            response = session.get(url, headers=headers)
             # 处理异常情况
             try:
                 response.raise_for_status()
