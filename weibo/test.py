@@ -1,4 +1,0 @@
-import hashlib
-s = "mode=3&oid=747023094&pagination_str=%7B%22offset%22%3A%22%7B%5C%22type%5C%22%3A1%2C%5C%22direction%5C%22%3A1%2C%5C%22session_id%5C%22%3A%5C%221743221506309241%5C%22%2C%5C%22data%5C%22%3A%7B%7D%7D%22%7D&plat=1&type=1&web_location=1315875&wts=1702369678ea1db124af3c7062474693fa704f4ff8"
-s2 = "mode=3&oid=747023094&pagination_str=%7B%22offset%22%3A%22%7B%5C%22type%5C%22%3A1%2C%5C%22direction%5C%22%3A1%2C%5C%22session_id%5C%22%3A%5C%221743221506309241%5C%22%2C%5C%22data%5C%22%3A%7B%7D%7D%22%7D&plat=1&type=1&wts=1702369678ea1db124af3c7062474693fa704f4ff8"
-print(hashlib.md5((s).encode('utf-8')).hexdigest())
