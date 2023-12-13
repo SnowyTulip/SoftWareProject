@@ -3,7 +3,7 @@ from abc import abstractmethod
 
 class IConfig:
     @abstractmethod
-    def get_data(self):
+    def get_config(self):
         pass
 
     @abstractmethod

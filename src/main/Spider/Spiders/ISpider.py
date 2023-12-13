@@ -1,5 +1,4 @@
 from abc import ABCMeta, abstractmethod
-from Configs import IConfig
 
 class ISpider:
     @abstractmethod
