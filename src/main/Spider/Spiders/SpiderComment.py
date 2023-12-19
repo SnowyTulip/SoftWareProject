@@ -44,13 +44,15 @@ class SpiderComment:
         pagination_str = config.get_pagination_str()
         oid = config.get_oid()
         url = config.get_base_url()
-        self.__read_url(pagination_str,oid,url)
-        pass
+        while pagination_str !="":
+            pagination_str = self.__read_url(pagination_str,oid,url)
+            time.sleep(random.random() * 3)
+        pass 
 
     def spider_data_all(self):
         for config in self.__configs:
             self.__sipder_data(config)
-            time.sleep(random.random() * 3)
+            
         pass
 
 
