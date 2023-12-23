@@ -1,7 +1,6 @@
 import random
 import time
 import requests
-from bs4 import BeautifulSoup
 from ..Objects.Video import video
 BVList = ['BV16b4y15765', 'BV1rH4y1C7kP', 'BV1VH4y117fN', 'BV1AN4y1U7ML', 'BV1YC4y1m7uS', 'BV1iw411N7sb', 'BV19Q4y1n7Qb', 'BV1Nw411s7NN', 'BV1mu4y1E7Z7', 'BV15w411X7zG', 'BV1qQ4y1W7Sp', 'BV1EC4y157LL', 'BV13w411r7By', 'BV1G34y1V7k2', 'BV1vr4y1f7sL', 'BV12h4y187dT', 'BV1A34y1N7Bu', 'BV17h4y1e7Rg', 'BV1MN411H7AJ', 'BV1Lj411k7DC', 'BV1ij41117RF', 'BV1594y147y4', 'BV1tP411Y7vG', 'BV1Zj411i72P']
 
@@ -34,6 +33,7 @@ class UP:
     
     def __get_videos(self):
         for i in range(len(self.BVList)):
+            time.sleep(random.randint(0,3))
             self.videos.append(video(self.oidList[i] ,self.BVList[i],self.mid))
 
     def __get_oids(self):
