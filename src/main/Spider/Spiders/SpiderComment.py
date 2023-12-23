@@ -6,8 +6,9 @@ from urllib.parse import quote_plus
 
 import requests
 from. import ISpider
-
+print(__package__) 
 from ..Configs.CommentConfig import CommentConfig
+from ..Objects.Comment import comment
 
 class SpiderComment:
     headers_ = {
@@ -16,18 +17,21 @@ class SpiderComment:
     }
 
 
-    def __init__(self,headers = {},data_name = ""):
+    def __init__(self,headers = {},data_name = "",commentConfig = None):
         self.__headers = SpiderComment.headers_
         self.__configs = []
         self.__data_name = "test"
         self.__csv_writer = None
         self.__f = None
         self.__csv_writer = None
+        self.__comment_data = [] #存放返回Comment对象
 
         if len(headers) != 0:
             self.__headers = headers
         if len(data_name) != 0:
             self.__data_name = data_name
+        if commentConfig != None:
+            self.commentConfig = commentConfig
         try:
             self.__f = open(f"./Data/{self.__data_name}.csv",mode = "a",encoding= 'utf-8',newline='')
             self.__csv_writer = csv.DictWriter(self.__f,fieldnames=["昵称","性别","地区","评论","点赞"])
@@ -39,6 +43,21 @@ class SpiderComment:
     
     def add_config(self,CommentConfig):
         self.__configs.append(CommentConfig)
+
+    def set_config(self,commentConfig):
+        '''使用这个配置爬取视频的配置
+        需要先设置commentConfig中的oid
+        '''
+        self.commentConfig = commentConfig
+
+    def spider_data(self):
+        '''使用这个进行设置爬取对象
+        返回一个List[comment]
+        '''
+        self.__comment_data.clear()
+        self.__sipder_data(self.commentConfig)
+        return self.__comment_data
+
 
     def __sipder_data(self,config:CommentConfig):
         pagination_str = config.get_pagination_str()
@@ -100,6 +119,11 @@ class SpiderComment:
                 location  = item["reply_control"]["location"].replace("IP属地：","")
                 data_dic = {"昵称":uname,"性别":sex,"地区":location,"评论":message,"点赞":like}
                 csv_writer.writerow(data_dic)
+                #这里还需要添加返回评论的能力
+                fcomment = comment(self.commentConfig.get_oid(),\
+                                len(self.__comment_data),\
+                                like,message,uname,location,sex)
+                self.__comment_data.append(fcomment)
                 # print(f"昵称:{uname}  性别:{sex} 地区:{location}")
                 print(f"评论:{message}")
                 # print(f"点赞{item['like']}")
