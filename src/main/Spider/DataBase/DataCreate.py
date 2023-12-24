@@ -11,6 +11,18 @@ class dataBase:
         # 连接BLDataBase数据库
         self.conn.select_db('BLDataBase')
         print("Database Created Successfully")
+    def ResetDatabases(self):
+        #创建数据库
+        self.InitDataBases()
+        #创建表
+        self.CreateTableUper()
+        self.CreateTableManager()
+        self.CreateTableVideos()
+        self.CreateTableComments()
+        self.create_uper_result_table()
+        self.create_uper_annalysis_table()
+        self.create_video_analysis_table()
+        print("Database Reset Successfully")
 
     def CreateTableUper(self):
         # 添加表格Users
