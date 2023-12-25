@@ -1,4 +1,5 @@
 import pymysql
+from ..Emotion.CommentAnalysis import get_sentiment_description
 # 连接本地MySQL数据库
 class dataBase:
     def __init__(self):
@@ -163,6 +164,29 @@ class dataBase:
             user_data = None
 
         return user_data
+    
+    def updata_comments_emotion(self):
+        with self.conn.cursor() as cursor:
+        # 查询comments表中的所有数据的content字段
+            sql = "SELECT content,comment_id FROM comments"
+            cursor.execute(sql)
+            results = cursor.fetchall()
+
+            # 遍历查询结果，对content字段末尾加上"_admin"，并更新emotion字段
+            #这里其实拿到主键，然后再更新其实更好
+            for result in results:
+                content = result[0]
+                updated_content = get_sentiment_description(content)
+                comment_id = result[1]
+
+                # 使用UPDATE语句更新emotion字段
+                update_sql = "UPDATE comments SET emotion=%s WHERE comment_id=%s"
+                cursor.execute(update_sql, (updated_content, comment_id))
+                print (f"message:{content} emotion:{updated_content}")
+        # 提交事务
+        self.conn.commit()
+        print("Updated content of comments emotion")
+
 
     def insert_or_update_video_data(self,video_data):
         with self.conn.cursor() as cursor:

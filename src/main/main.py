@@ -18,7 +18,10 @@ if __name__ == "__main__":
     'Referer':'https://space.bilibili.com/544261015/video'
     }
     db = dataBase()
-    upper = UP(db = db)
+    # upper = UP(db = db)
+    db.updata_comments_emotion()
+    db.close()
+
     # upper.writeDataBase(db = db)
 
 
