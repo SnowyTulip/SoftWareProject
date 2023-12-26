@@ -46,14 +46,14 @@ export default function PostList(props) {
           // 处理每一项的弹窗
           <List.Item onClick={() => {
             showModal(true);
-            setModalTitle("Detail of No. " + (parseInt(index) + 1) + " " + source + " Post");
+            setModalTitle("Detail of No. " + (parseInt(index) + 1) + " " + source );
             setText(item.text);
             setLikes(item.likes);
             setScore(item.score);
           }}>
             <List.Item.Meta
               avatar={<Avatar src={`https://xsgames.co/randomusers/avatar.php?g=pixel&key=${index}`} />}
-              title={<span>{"No. " + (index + 1 + (currentPage - 1) * 10) + " " + source + " Post"} </span>}
+              title={<span>{"No. " + (index + 1 + (currentPage - 1) * 10) + " " + source + ""} </span>}
               // description={item.text}
               description={<div style={singleLineTextStyle}>{item.text}</div>} />
           </List.Item>

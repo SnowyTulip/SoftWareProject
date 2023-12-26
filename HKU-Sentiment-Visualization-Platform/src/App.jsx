@@ -129,43 +129,6 @@ function App() {
 
     fetchData();
   }, [])
-  const option_bar = {
-    title: {
-      text: 'Data Source',
-      subtext: 'Distribution of posts in Twitter and Weibo',
-      x: 'center',
-      top: 10
-    },
-    tooltip: {
-      trigger: 'item',
-      formatter: "{a} <br/>{b} : {c} ({d}%)",
-    },
-    legend: {
-      orient: 'vertical',
-      left: 'left',
-      data: ['Weibo', 'Twitter'],
-      top: 20
-    },
-    series: [
-      {
-        name: 'Souce',
-        type: 'pie',
-        radius: '55%',
-        center: ['50%', '60%'],
-        data: [
-          { value: weiboCount, name: 'Weibo' },
-          { value: tweetCount, name: 'Twitter' },
-        ],
-        itemStyle: {
-          emphasis: {
-            shadowBlur: 10,
-            shadowOffsetX: 0,
-            shadowColor: 'rgba(0, 0, 0, 0.5)'
-          }
-        }
-      }
-    ]
-  };
   const date_line = {
     title: {
       text: 'Number of HKU-related Posts in Last Week',
@@ -322,96 +285,6 @@ function App() {
       }
     ]
   };
-  const option_grade_weibo = {
-    title: {
-      text: 'Sentiment_weibo',
-      x: 'center',
-      top: 10
-    },
-    series: [
-      {
-        type: 'gauge',
-        startAngle: 180,
-        endAngle: 0,
-        center: ['50%', '80%'],
-        radius: '90%',
-        min: 0,
-        max: 1,
-        splitNumber: 8,
-        axisLine: {
-          lineStyle: {
-            width: 6,
-            color: [
-              [0.25, '#FF6E76'],
-              [0.5, '#FDDD60'],
-              [0.75, '#58D9F9'],
-              [1, '#7CFFB2']
-            ]
-          }
-        },
-        pointer: {
-          icon: 'path://M12.8,0.7l12,40.1H0.7L12.8,0.7z',
-          length: '12%',
-          width: 10,
-          offsetCenter: [0, '-60%'],
-          itemStyle: {
-            color: 'auto'
-          }
-        },
-        axisTick: {
-          length: 12,
-          lineStyle: {
-            color: 'auto',
-            width: 2
-          }
-        },
-        splitLine: {
-          length: 20,
-          lineStyle: {
-            color: 'auto',
-            width: 5
-          }
-        },
-        axisLabel: {
-          color: '#464646',
-          fontSize: 18,
-          distance: -50,
-          rotate: 'tangential',
-          formatter: function (value) {
-            if (value === 0.875) {
-              return 'Grade A';
-            } else if (value === 0.625) {
-              return 'Grade B';
-            } else if (value === 0.375) {
-              return 'Grade C';
-            } else if (value === 0.125) {
-              return 'Grade D';
-            }
-            return '';
-          }
-        },
-        title: {
-          offsetCenter: [0, '-10%'],
-          fontSize: 20
-        },
-        detail: {
-          fontSize: 30,
-          offsetCenter: [0, '-35%'],
-          valueAnimation: true,
-          formatter: function (value) {
-            return Math.round(value * 100) + '';
-          },
-          color: 'inherit'
-        },
-        data: [
-          {
-            value: weiboPositiveVal,
-            name: 'Sentiment Score'
-          }
-        ]
-      }
-    ]
-  };
 
   return (
     <div className='all-container'>
@@ -437,7 +310,7 @@ function App() {
               setShowWeibo(true);
             }}
           >
-            Weibo
+            Analyze
           </button>
           <button
             className={showTwitter ? 'active' : ''}
@@ -447,66 +320,35 @@ function App() {
               setShowWeibo(false);
             }}
           >
-            Twitter
+            others
           </button>
         </div>
       </div>
       {/* 1. 默认首页，展示这些内容 */}
-      {showOverview && <>
-        <div className='overview-row'>
-          <div className='echart-container'>
-            <MyWordCloud cloudData={cloudData} />
-          </div>
-          <div className='echart-container'>
-            <ReactECharts
-              option={option_bar}
-              style={{
-                height: "40vh",
-                width: "27vw",
-              }} />
-          </div>
-          <div className='echart-container-2'>
-            <ReactECharts
-              option={date_line}
-              style={{
-                height: "40vh",
-                width: "40vw",
-              }} />
-          </div>
-        </div>
-        <div className='overview-row'>
-          <div className='echart-container'>
-            <ReactECharts
-              option={option_grade_twitter}
-              style={{
-                height: "40vh",
-                width: "27vw",
-              }} />
-          </div>
-          <div className='echart-container'>
-            <ReactECharts
-              option={option_grade_weibo}
-              style={{
-                height: "40vh",
-                width: "27vw",
-              }} />
-          </div>
-          <div className='echart-container-2'>
-            <ReactECharts
-              option={hot_line}
-              style={{
-                height: "40vh",
-                width: "40vw",
-              }} />
-          </div>
-        </div>
-      </>}
+      {     showOverview && <>
+      <div style={{ 
+              display: 'flex', 
+              justifyContent: 'center', 
+              alignItems: 'center', 
+              height: '100vh' // This makes the div take the full height of the viewport
+            }}>
+        <iframe 
+          src="/Chart.html" 
+          title="Chart"
+          width="100%" 
+          height="100%" 
+          style={{ border: "none" }}
+        />
+      </div>
+      </>
+    }
       {/* 2. 展示微博相关内容 */}
       {showWeibo && <>
         <WeiboPage weiboHotVal={weiboHotVal} weiboDateVal={weiboDateVal} xAxis={xAxis}/>
       </>}
       {/* 3. 展示 Twitter 相关内容 */}
       {showTwitter && <>
+          
         <TwitterPage tweetDateVal={tweetDateVal} tweetHotVal={tweetHotVal} xAxis={xAxis}/>
       </>}
     </div>

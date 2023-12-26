@@ -23,7 +23,7 @@ export default function NoticeBoard(props) {
     return (
         <div className='notice-container'>
             <div className='notice-text-container'>
-                📢📢📢 We have collect {totalNum} posts about HKU from Twitter and Weibo! The latest updated time of our database is {formattedDate} 📢📢📢
+                📢📢📢 We have collect {totalNum} posts about USTC from Bilibili!  📢📢📢
             </div>
         </div>
     )

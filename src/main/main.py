@@ -19,7 +19,8 @@ if __name__ == "__main__":
     }
     db = dataBase()
     # upper = UP(db = db)
-    db.updata_comments_emotion()
+    # db.updata_comments_emotion()
+    print(db.get_all_comments())
     db.close()
 
     # upper.writeDataBase(db = db)

@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <script src="https://cdn.bootcdn.net/ajax/libs/echarts/5.1.2/echarts.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <style>
+        body {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: start;
+            align-items: center;
+            background-color: teal;
+            padding: 10px;
+            color: white;
+            font-size: 24px;
+        }
+
+        .header img {
+            border-radius: 50%;
+            margin-right: 20px;
+        }
+
+        .header button {
+            margin-left: 20px;
+        }
+
+        .icon-button {
+            background: none;
+            border: none;
+            padding: 0;
+            cursor: pointer;
+        }
+
+        .buttonStyle {
+            width: 150px;
+            height: 80px;
+            margin: 20px;
+            border-radius: 12px;
+            float: left;
+            color: white;
+            background-color: transparent;
+            /* 定义按钮背景为透明 */
+            display: flex;
+            flex-direction: column;
+            /* 使得元素在按钮内垂直堆叠 */
+            align-items: center;
+            justify-content: center;
+            border: 1cap;
+            position: relative;
+            font-size: 15px;
+        }
+
+        .buttonStyle .buttonContent {
+            display: flex;
+            flex-direction: column;
+            /* 使得文字和数据在<button>元素内垂直堆叠 */
+            align-items: center;
+            justify-content: center;
+            z-index: 1;
+            /* 需要将内容层级设置的高于图片，以防被图片覆盖 */
+        }
+
+        .buttonStyle .buttonData {
+            font-size: 15px;
+            /* 调整数据的文字大小，按您的需要 */
+            color: white;
+            /* 修改这里来改变数据的颜色 */
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+
+        }
+
+        .buttonStyle:after {
+            content: '';
+            position: absolute;
+            top: 25px;
+            right: 0;
+            bottom: 0;
+            left: 25px;
+            background-size: 20%;
+            /* 调整这个值来改变背景图片的大小，这会将图片的宽度和高度设置为容器的 50% */
+            /* background-position: center; */
+            background-repeat: no-repeat;
+            opacity: .6;
+            z-index: -1;
+        }
+
+        .buttonStyle[id="播放量"]:after {
+            background-image: url('images/plays.png');
+        }
+
+        .buttonStyle[id="粉丝数"]:after {
+            background-image: url('images/fans.png');
+        }
+
+        .buttonStyle[id="点赞"]:after {
+            background-image: url('images/点赞.png');
+        }
+
+        .buttonStyle[id="收藏"]:after {
+            background-image: url('images/收藏.png');
+        }
+
+        .buttonStyle[id="评论"]:after {
+            background-image: url('images/评论.png');
+        }
+
+        .buttonStyle[id="弹幕"]:after {
+            background-image: url('images/弹幕.png');
+        }
+
+        .buttonStyle[id="分享"]:after {
+            background-image: url('images/分享.png');
+        }
+
+        .buttonStyle[id="投币"]:after {
+            background-image: url('images/投币.png');
+        }
+
+        .rowStyle {
+            clear: both;
+        }
+        #Left {
+            float: left;
+        }
+
+        #chart2 {
+            float: right;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <img src="images/title.png" alt="Avatar" style="height:60px;" />
+        <span>Chris的军事基地</span>
+        <button type="button" class="icon-button"><img src="images/mail.png" alt="Mail" style="height:24px;" /></button>
+        <button type="button" class="icon-button"><img src="images/download.png" alt="Download"
+                style="height:24px;" /></button>
+    </div>
+    <div id="chart-container" style="display: flex; justify-content: space-between;">
+        <div id = "Left">
+            <div id="buttons">
+                <div class="rowStyle">
+                    <button id="播放量" class="buttonStyle" onclick="updateData('播放量')">
+                        <div class="buttonContent">
+                            播放量
+                            <div class="buttonData">0.5万</div>
+                        </div>
+                    </button>
+    
+                    <button id="粉丝数" class="buttonStyle" onclick="updateData('粉丝数')">
+                        <div class="buttonContent">
+                            粉丝数
+                            <div class="buttonData">0.5万</div>
+                        </div>
+                    </button>
+    
+                    <button id="点赞" class="buttonStyle" onclick="updateData('点赞')">
+                        <div class="buttonContent">
+                            点赞
+                            <div class="buttonData">0.5万</div>
+                        </div>
+                    </button>
+    
+                    <button id="收藏" class="buttonStyle" onclick="updateData('收藏')">
+                        <div class="buttonContent">
+                            收藏
+                            <div class="buttonData">0.5万</div>
+                        </div>
+                    </button>
+                </div>
+                <div class="rowStyle">
+                    <button id="评论" class="buttonStyle" onclick="updateData('评论')">
+                        <div class="buttonContent">
+                            评论
+                            <div class="buttonData">0.5万</div>
+                        </div>
+                    </button>
+                    <button id="弹幕" class="buttonStyle" onclick="updateData('弹幕')">
+                        <div class="buttonContent">
+                            弹幕
+                            <div class="buttonData">0.5万</div>
+                        </div>
+                    </button>
+    
+                    <button id="分享" class="buttonStyle" onclick="updateData('分享')">
+                        <div class="buttonContent">
+                            分享
+                            <div class="buttonData">0.5万</div>
+                        </div>
+                    </button>
+                    <button id="投币" class="buttonStyle" onclick="updateData('投币')">
+                        <div class="buttonContent">
+                            投币
+                            <div class="buttonData">0.5万</div>
+                        </div>
+                    </button>
+                </div>
+                <div id="chart" style="width: 750px;height:400px;clear:both;"></div>
+        </div>
+        
+    </div>
+    <!-- <div id="chart2" style="width: 650px;height:650px;"></div> -->
+    <div id="chart2" style="width: 650px;height:650px;"></div>
+
+    
+
+        <!-- <div id="chart2" style="width: 375px;height:400px;float:right;"></div> -->
+        <script>
+            // import axios from 'axios';
+            var chart = echarts.init(document.getElementById('chart'));
+            var chart2 = echarts.init(document.getElementById('chart2'));
+            var data = {
+                '播放量': [120, 200, 150, 80, 70, 110, 130],
+                '粉丝数': [220, 182, 191, 234, 290, 330, 310],
+                '点赞': [220, 182, 123, 234, 290, 330, 123],
+                '收藏': [220, 182, 191, 234, 290, 330, 312],
+                '评论': [220, 182, 191, 23, 290, 330, 310],
+                '弹幕': [123, 182, 191, 34, 290, 330, 310],
+                '分享': [220, 182, 191, 234, 12, 330, 310],
+                '投币': [220, 182, 191, 234, 31, 12, 310],
+                // Fill in your own data
+            };
+            var aggregate = Object.keys(data).reduce((acc, key) => {
+                return { ...acc, [key]: data[key].reduce((a, b) => a + b, 0) }
+            }, {});
+            var previousButton = null;
+            function updateData(type) {
+                // Reset previously clicked button
+                if (previousButton) {
+                    previousButton.style.background = "rgba(0, 0, 0, 0.6)";
+                }
+                // Change background color of the clicked button
+                var button = document.getElementById(type);
+                button.style.background = "rgba(255,70,132,0.6)";
+                previousButton = button;
+                chart.setOption({
+                    title: {
+                        text: "近七天" + type
+                    },
+                    xAxis: {
+                        type: 'category',
+                        data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+                    },
+                    yAxis: {
+                        type: 'value'
+                    },
+                    series: [{
+                        data: data[type],
+                        type: 'line'
+                    }]
+                });
+                axios.get('http://127.0.0.1:5000/data')
+                    .then(function(response) {
+                        const allData = response.data;
+                        const video_names = allData.map(function(item) {
+                            return item['video_name'];
+                        });
+                        const view_counts = allData.map(function(item) {
+                            return item['view_count'];
+                        });
+
+                        chart2.setOption({
+                            legend: {
+                                data: video_names,
+                                orient: 'vertical',
+                                left: '',
+                                top: 'middle',
+                                textStyle: {
+                                    fontSize: 2
+                                }
+                            },
+                            series: [{
+                                name: 'View Counts',
+                                type: 'pie',
+                                data: view_counts.map(function(item, index) {
+                                    return { value: item, name: video_names[index] };
+                                })
+                            }]
+                        });
+                    })
+                    .catch(function(error) {
+                        console.log(error);
+                    });
+
+            }
+
+            updateData('播放量');
+        </script>
+</body>
+
+</html>

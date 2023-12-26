@@ -235,6 +235,13 @@ class dataBase:
             comment_data = cursor.fetchone()
             return comment_data
         
+    # SELECT content FROM comments LIMIT 100
+    def get_all_comments(self):
+        with self.conn.cursor(pymysql.cursors.DictCursor) as cursor:
+            cursor.execute("SELECT content FROM comments")
+            comment_data = cursor.fetchall()
+            return comment_data
+        
     # 插入或更新uper_result数据
     def insert_or_update_uper_result_data(self, uper_data):
         with self.conn.cursor() as cursor:
@@ -305,10 +312,26 @@ class dataBase:
             cursor.execute("SELECT * FROM video_analysis WHERE video_id=%s", (video_id,))
             video_data = cursor.fetchone()
             return video_data
-
+        
     def close(self):
         self.conn.close()
-
+# SELECT video_name,view_count FROM videos LIMIT 100
+    def query_video_data_(self):
+        with self.conn.cursor(pymysql.cursors.DictCursor) as cursor:
+            cursor.execute("SELECT video_name,view_count FROM videos")
+            video_data = cursor.fetchall()
+            return self.__process_video_data(video_data)
+    def __process_video_data(self,data):
+        resList = []
+        for item in data:
+            cnt = 1
+            base = float(item["view_count"].strip("万"))
+            if "万"  in item["view_count"]:
+                cnt = 10000
+            base *= cnt
+            item["view_count"] = base
+            resList.append(item)
+        return resList
     
 
 
@@ -317,83 +340,85 @@ if __name__ == "__main__":
     db = dataBase()
     #创建数据库
     db.InitDataBases()
-    #创建表
-    db.CreateTableUper()
-    db.CreateTableManager()
-    db.CreateTableVideos()
-    db.CreateTableComments()
-    db.create_uper_result_table()
-    db.create_uper_annalysis_table()
-    db.create_video_analysis_table()
-    user_data = {
-    'uper_id': '001',
-    'mannager_id': '002',
-    'location': 'Beijing',
-    'sex': 'Male',
-    'age': '30',
-    'uper_name': '张三'
-    }
-    db.insert_uper_data(user_data)
-    print(db.query_uper_data("001"))
-    # video
-    video_data = {
-        'video_id': '001',
-        'uper_id': '001',
-        'video_name': 'test',
-        'thumbs': 'test',
-        'coin': 'test',
-        'share': 'test',
-        'bullet_num': 'test',
-        'view_count': 'test',
-        'fav_count': 'test',
-        'content': 'test'
-    }
-    db.insert_or_update_video_data(video_data)
-    print(db.query_video_data(video_data['video_id']))
-    # comment
-    comment_data = {
-        'comment_id': '12312',
-        'video_id': '12312312',
-        'user_name': 'gaobopi',
-        'thumbs': '10',
-        'location': '123123',
-        'emotion' : 'test',
-        'content': '123899999'
-    }
-    db.insert_or_update_comment_data(comment_data)
-    print(db.query_comment_data(comment_data['comment_id']))
-
-    # 插入或更新数据
-    uper_data = {'uper_id': '1', 'emotion': 'happy', 'feature': 'creative', 'hobby': 'painting'}
-    db.insert_or_update_uper_result_data( uper_data)
-    # 查询数据
-    print(db.query_uper_result_data( '1'))
-
-    # 插入或更新数据
-    uper_data = {
-        'uper_id': '1',
-        'rank_value': 'A',
-        'time_seq': '["2023-12-20", "2023-12-21", "2023-12-22"]',
-        'view_seq': '["100", "150", "200"]',
-        'thumb_seq': '["50", "75", "100"]'
-    }
-    db.insert_or_update_uper_annalysis_data( uper_data)
-    # 查询数据
-    result = db.query_uper_annalysis_data( '1')
-    print(result)
-
-    # 插入或更新数据
-    video_data = {
-        'video_id': '001',
-        'title_str': 'Video Title',
-        'time_seq': '["2023-12-20", "2023-12-21", "2023-12-22"]',
-        'view_seq': '["100", "150", "200"]',
-        'thumb_seq': '["50", "75", "100"]'
-    }
-    db.insert_or_update_video_analysis_data( video_data)
-    # 查询数据
-    result = db.query_video_analysis_data( '001')
-    print(result)
-
-
+    db.query_video_data_()
     db.close()
+    #创建表
+    # db.CreateTableUper()
+    # db.CreateTableManager()
+    # db.CreateTableVideos()
+    # db.CreateTableComments()
+    # db.create_uper_result_table()
+    # db.create_uper_annalysis_table()
+    # db.create_video_analysis_table()
+    # user_data = {
+    # 'uper_id': '001',
+    # 'mannager_id': '002',
+    # 'location': 'Beijing',
+    # 'sex': 'Male',
+    # 'age': '30',
+    # 'uper_name': '张三'
+    # }
+    # db.insert_uper_data(user_data)
+    # print(db.query_uper_data("001"))
+    # # video
+    # video_data = {
+    #     'video_id': '001',
+    #     'uper_id': '001',
+    #     'video_name': 'test',
+    #     'thumbs': 'test',
+    #     'coin': 'test',
+    #     'share': 'test',
+    #     'bullet_num': 'test',
+    #     'view_count': 'test',
+    #     'fav_count': 'test',
+    #     'content': 'test'
+    # }
+    # db.insert_or_update_video_data(video_data)
+    # print(db.query_video_data(video_data['video_id']))
+    # # comment
+    # comment_data = {
+    #     'comment_id': '12312',
+    #     'video_id': '12312312',
+    #     'user_name': 'gaobopi',
+    #     'thumbs': '10',
+    #     'location': '123123',
+    #     'emotion' : 'test',
+    #     'content': '123899999'
+    # }
+    # db.insert_or_update_comment_data(comment_data)
+    # print(db.query_comment_data(comment_data['comment_id']))
+
+    # # 插入或更新数据
+    # uper_data = {'uper_id': '1', 'emotion': 'happy', 'feature': 'creative', 'hobby': 'painting'}
+    # db.insert_or_update_uper_result_data( uper_data)
+    # # 查询数据
+    # print(db.query_uper_result_data( '1'))
+
+    # # 插入或更新数据
+    # uper_data = {
+    #     'uper_id': '1',
+    #     'rank_value': 'A',
+    #     'time_seq': '["2023-12-20", "2023-12-21", "2023-12-22"]',
+    #     'view_seq': '["100", "150", "200"]',
+    #     'thumb_seq': '["50", "75", "100"]'
+    # }
+    # db.insert_or_update_uper_annalysis_data( uper_data)
+    # # 查询数据
+    # result = db.query_uper_annalysis_data( '1')
+    # print(result)
+
+    # # 插入或更新数据
+    # video_data = {
+    #     'video_id': '001',
+    #     'title_str': 'Video Title',
+    #     'time_seq': '["2023-12-20", "2023-12-21", "2023-12-22"]',
+    #     'view_seq': '["100", "150", "200"]',
+    #     'thumb_seq': '["50", "75", "100"]'
+    # }
+    # db.insert_or_update_video_analysis_data( video_data)
+    # # 查询数据
+    # result = db.query_video_analysis_data( '001')
+    # print(result)
+
+
+    # db.close()

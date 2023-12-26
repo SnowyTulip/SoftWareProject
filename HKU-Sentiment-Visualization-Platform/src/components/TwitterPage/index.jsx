@@ -74,84 +74,125 @@ export default function TwitterPage(props) {
 
         fetchData();
     }, [])
-    var hot_option = {
+    var map_B_Data = [
+        {name: '北京', value: 100},
+        {name: '天津', value: 82},
+        {name: '上海', value: 95},
+        {name: '重庆', value: 70},
+        {name: '河北', value: 46},
+        {name: '河南', value: 55},
+        {name: '云南', value: 67},
+        {name: '辽宁', value: 75},
+        {name: '黑龙江', value: 42},
+        {name: '湖南', value: 87},
+        {name: '安徽', value: 60},
+        {name: '山东', value: 80},
+        {name: '新疆', value: 45},
+        {name: '江苏', value: 92},
+        {name: '浙江', value: 88},
+        {name: '江西', value: 75},
+        {name: '湖北', value: 78},
+        {name: '广西', value: 55},
+        {name: '甘肃', value: 40},
+        {name: '山西', value: 61},
+        {name: '内蒙古', value: 69},
+        {name: '陕西', value: 60},
+        {name: '吉林', value: 50},
+        {name: '福建', value: 70},
+        {name: '贵州', value: 60},
+        {name: '广东', value: 92},
+        {name: '青海', value: 45},
+        {name: '西藏', value: 30},
+        {name: '四川', value: 81},
+        {name: '宁夏', value: 50},
+        {name: '海南', value: 60},
+        {name: '台湾', value: 70},
+        {name: '香港', value: 85},
+        {name: '澳门', value: 75}
+    ];
+    var map_option = {
         title: {
-            text: 'Hot-Val of Twitter Posts in Last Week ',
-            x: 'center',
-            top: 10
+            text: '粉丝分布图',
+            left: "center",
+            top: 10,
         },
-        grid: { top: 50, right: 30, bottom: 30, left: 50 },
-        xAxis: {
-            type: 'category',
-            data: xAxis
+        tooltip: {
+            trigger: 'item',
+            showDelay: 0,
+            transitionDuration: 0.2
         },
-        yAxis: {
-            type: 'value'
+        visualMap: {
+            left: 'right',
+            min: 1,
+            max: 100,
+            inRange: {
+                color: [
+                    '#313695',
+                    '#4575b4',
+                    '#74add1',
+                    '#abd9e9',
+                    '#e0f3f8',
+                    '#ffffbf',
+                    '#fee090',
+                    '#fdae61',
+                    '#f46d43',
+                    '#d73027',
+                    '#a50026'
+                ]
+            },
+            text: ['High', 'Low'],
+            calculable: true
+        },
+        toolbox: {
+            show: true,
+            //orient: 'vertical',
+            left: 'left',
+            top: 'top',
+            feature: {
+                dataView: { readOnly: false },
+                restore: {},
+                saveAsImage: {}
+            }
         },
         series: [
             {
-                data: tweetHotVal,
-                type: 'bar'
-            }
-        ]
-    };
-    var date_option = {
-        title: {
-            text: 'Number of HKU-related Twitter Posts in Last Week',
-            x: 'center',
-            top: 10
-        },
-        grid: { top: 50, right: 30, bottom: 30, left: 50 },
-        xAxis: {
-            type: 'category',
-            data: xAxis
-        },
-        yAxis: {
-            type: 'value'
-        },
-        series: [
-            {
-                data: tweetDateVal,
-                type: 'bar'
-            }
-        ]
+                name: '粉丝分布',
+                type: "map",
+                // mapType,
+                map: "china",
+                itemStyle: {
+                    //地图区域的多边形 图形样式
+                    normal: {
+                        //是图形在默认状态下的样式
+                        label: {
+                            show: true, //是否显示标签
+                            textStyle: {
+                                color: "rgba(0,0,0,1)",
+                                fontSize:13,
+                            },
+                            formatter: '{b}\n{c}' //b代表区域的名字，c代表数据的值
+                        },
+                    },
+                },
+                // aspectScale: mapType === "china" ? 0.75 : 1,
+                top: "5%",     //将component top值调低
+                left: "10%",     //将component left值调低
+                right: "0%",    //将component right值调低
+                bottom: "10%",  //将component bottom值调低
+                data: map_B_Data
+            },
+        ],
     };
     return (
         <div>
-            {/* 第一行：词云 + 两个柱状图 */}
-            <div className='overview-row'>
-                <div className='echart-container-3'>
-                    <MyWordCloud cloudData={cloudData} />
-                </div>
-                <div className='echart-container-3'>
-                    <ReactECharts
-                        option={hot_option}
-                        style={{
-                            height: "40vh",
-                            width: "32vw",
-                        }} />
-                </div>
-                <div className='echart-container-3'>
-                    <ReactECharts
-                        option={date_option}
-                        style={{
-                            height: "40vh",
-                            width: "32vw",
-                        }} />
-                </div>
-            </div>
-
-            {/* 第二行：列表 */}
-            <div className='overview-row'>
-                <div className='echart-container-3'>
-                    <PostList data={tweetText} title={"Most Popular Overall Twitter Posts"} source={"Twitter"}/>
-                </div>
-                <div className='echart-container-3'>
-                    <PostList data={tweetPositiveText} title={"Most Popular Positive Twitter Posts"} source={"Twitter"}/>
-                </div>
-                <div className='echart-container-3'>
-                    <PostList data={tweetNegativeText} title={"Most Popular Negative Twitter Posts"} source={"Twitter"}/>
-                </div>
+            <div className='echart-container-4'>
+                <ReactECharts
+                    option={map_option}
+                    style={{
+                        height: "50vw",
+                        width: "65vw",
+                    }} 
+                />
             </div>
         </div>
     )

@@ -28,7 +28,24 @@ export default function WeiboPage(props) {
                 const cloudOriginal = allData.WeiboCloud;
 
                 // 2. 帖子数据
-                const WeiboText = allData.WeiboText.WeiboText;
+                const WeiboText =  [
+                  {
+                    text: '这是微博内容',
+                    likes: 120,
+                    score: 7.5
+                  },
+                  {
+                    text: '这是另一个微博内容',
+                    likes: 300,
+                    score: 9.2
+                  },
+                  {
+                    text: '这是第三个微博内容',
+                    likes: 210,
+                    score: 8.6
+                  },
+                  // ...
+                ]
                 const TweetPositiveText = allData.TweetPositiveText.TweetPositiveText;
                 const TweetNegativeText = allData.TweetNegativeText.TweetNegativeText;
                 // 微博：text，likes，score
@@ -62,10 +79,92 @@ export default function WeiboPage(props) {
 
         fetchData();
     }, [])
+    var WeiboText_data =  [
+      {
+        text: '【F-16详解】最畅销的战斗机 空中多面手',
+        likes: 11000,
+        score: 9.5
+      },
+      {
+        text: '【C-5详解】美军现役最大运输机 全球空中机动战略支柱',
+        likes: 300,
+        score: 9.2
+      },
+      {
+        text: '【F-22】这是一架来自30年前的飞机',
+        likes: 210,
+        score: 8.6
+      },
+      {
+        text: '【硬抗飞机】世界最安全的办公楼？五角大楼有多特别？',
+        likes: 2400,
+        score: 8.3
+      },
+      // ...
+    ]
+    var Comment_Text_data =  [
+      {
+        text: '一个个弹幕里喊着我们造不出来的简直了，，tm现在运20载重60吨朝上 有啥代差？ 问题是我们搞出个类似b52的拿来干啥？？？ 你看美国敢拿b52对付我们吗？',
+        likes: 10,
+        score: 0.5
+      },
+      {
+        text: '评论区怎么这么多反讽，嘲讽的，简直没法看，就没有评论评论飞机的吗',
+        likes: 20,
+        score: 3.2
+      },
+      {
+        text: '话说还在吹？醒醒吧！这玩意早就过时了，用这玩意废人费钱，是无人机不香吗？一样的功能，无人机不费人造价也比这玩意便宜，咋滴？你们真当阿美莉卡的国防部是吃干饭？',
+        likes: 10,
+        score: 1.6
+      },
+      {
+        text: '别踏马刷图160了，图160抄袭者，b1是70年代出现，图160是80年代出现，而且图160选不如B1，傻大黑粗，走的还是高空高速路线，不能低空突防，完全不隐身，RCS大的吓人，只能远远的射巡航导弹，本质上跟B52没区别，B1b好歹能低空突防规避雷达',
+        likes: 20,
+        score: 2.6
+      },
+      // ...
+    ]
+    var map_B_Data = [
+      {name: '北京', value: 100},
+      {name: '天津', value: 82},
+      {name: '上海', value: 95},
+      {name: '重庆', value: 70},
+      {name: '河北', value: 46},
+      {name: '河南', value: 55},
+      {name: '云南', value: 67},
+      {name: '辽宁', value: 75},
+      {name: '黑龙江', value: 42},
+      {name: '湖南', value: 87},
+      {name: '安徽', value: 60},
+      {name: '山东', value: 80},
+      {name: '新疆', value: 45},
+      {name: '江苏', value: 92},
+      {name: '浙江', value: 88},
+      {name: '江西', value: 75},
+      {name: '湖北', value: 78},
+      {name: '广西', value: 55},
+      {name: '甘肃', value: 40},
+      {name: '山西', value: 61},
+      {name: '内蒙古', value: 69},
+      {name: '陕西', value: 60},
+      {name: '吉林', value: 50},
+      {name: '福建', value: 70},
+      {name: '贵州', value: 60},
+      {name: '广东', value: 92},
+      {name: '青海', value: 45},
+      {name: '西藏', value: 30},
+      {name: '四川', value: 81},
+      {name: '宁夏', value: 50},
+      {name: '海南', value: 60},
+      {name: '台湾', value: 70},
+      {name: '香港', value: 85},
+      {name: '澳门', value: 75}
+  ];
 
     var map_option = {
         title: {
-            text: 'Weibo Map',
+            text: 'Fans Distribution',
             left: "center",
             top: 10,
         },
@@ -109,7 +208,7 @@ export default function WeiboPage(props) {
         },
         series: [
             {
-                name: 'Weibo Posts',
+                name: 'Fans Distribution',
                 type: "map",
                 // mapType,
                 map: "china",
@@ -127,63 +226,74 @@ export default function WeiboPage(props) {
                 },
                 // aspectScale: mapType === "china" ? 0.75 : 1,
                 top: "10%", //组件距离容器的距离
-                data: mapData
+                data: map_B_Data
             },
         ],
     };
-    var hot_option = {
-        title: {
-            text: 'Hot-Val of Weibo Posts in Last Week ',
-            x: 'center',
-            top: 10
-        },
-        grid: { top: 50, right: 30, bottom: 30, left: 50 },
-        xAxis: {
-            type: 'category',
-            data: xAxis
-        },
-        yAxis: {
-            type: 'value'
-        },
-        series: [
-            {
-                data: weiboHotVal,
-                type: 'bar'
-            }
-        ]
-    };
     var date_option = {
         title: {
-            text: 'Number of HKU-related Weibo Posts in Last Week',
-            x: 'center',
-            top: 10
+          text: '一周内视频总播放量'
         },
-        grid: { top: 50, right: 30, bottom: 30, left: 50 },
+        tooltip: {
+          trigger: 'axis'
+        },
+        grid: {
+          left: '3%',
+          right: '4%',
+          bottom: '3%',
+          containLabel: true
+        },
+        toolbox: {
+          feature: {
+            saveAsImage: {}
+          }
+        },
         xAxis: {
-            type: 'category',
-            data: xAxis
+          type: 'category',
+          boundaryGap: false,
+          data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
         },
         yAxis: {
-            type: 'value'
+          type: 'value'
         },
         series: [
-            {
-                data: [
-                    {
-                      value: [3, 5, 8, 2, 0],
-                      name: 'Data B',
-                    }
-                  ],
-                type: 'bar'
-            }
+          {
+            name: 'Email',
+            type: 'line',
+            stack: 'Total',
+            data: [120, 132, 101, 134, 90, 230, 210]
+          },
+          {
+            name: 'Union Ads',
+            type: 'line',
+            stack: 'Total',
+            data: [220, 182, 191, 234, 290, 330, 310]
+          },
+          {
+            name: 'Video Ads',
+            type: 'line',
+            stack: 'Total',
+            data: [150, 232, 201, 154, 190, 330, 410]
+          },
+          {
+            name: 'Direct',
+            type: 'line',
+            stack: 'Total',
+            data: [320, 332, 301, 334, 390, 330, 320]
+          },
+          {
+            name: 'Search Engine',
+            type: 'line',
+            stack: 'Total',
+            data: [820, 932, 901, 934, 1290, 1330, 1320]
+          }
         ]
-    };
-    var option_Aly  = {
+      };
+    var option_Figure_Aly  = {
         color: ['#67F9D8', '#FFE434', '#56A3F1', '#FF917C'],
         title: {
-          text: 'Customized Radar Chart'
+          text: '用户画像'
         },
-        legend: {},
         radar: [
           {
             indicator: [
@@ -193,7 +303,7 @@ export default function WeiboPage(props) {
               { text: 'Indicator4' },
               { text: 'Indicator5' }
             ],
-            center: ['25%', '50%'],
+            center: ['50%', '50%'],
             radius: 120,
             startAngle: 90,
             splitNumber: 4,
@@ -220,24 +330,7 @@ export default function WeiboPage(props) {
               }
             }
           },
-          {
-            indicator: [
-              { text: 'Indicator1', max: 150 },
-              { text: 'Indicator2', max: 150 },
-              { text: 'Indicator3', max: 150 },
-              { text: 'Indicator4', max: 120 },
-              { text: 'Indicator5', max: 108 },
-              { text: 'Indicator6', max: 72 }
-            ],
-            center: ['75%', '50%'],
-            radius: 120,
-            axisName: {
-              color: '#fff',
-              backgroundColor: '#666',
-              borderRadius: 3,
-              padding: [3, 5]
-            }
-          }
+          
         ],
         series: [
           {
@@ -261,45 +354,71 @@ export default function WeiboPage(props) {
               }
             ]
           },
-          {
-            type: 'radar',
-            radarIndex: 1,
-            data: [
-              {
-                value: [120, 118, 130, 100, 99, 70],
-                name: 'Data C',
-                symbol: 'rect',
-                symbolSize: 12,
-                lineStyle: {
-                  type: 'dashed'
-                },
-                label: {
-                  show: true,
-                  formatter: function (params) {
-                    return params.value;
-                  }
-                }
-              },
-              {
-                value: [100, 93, 50, 90, 70, 60],
-                name: 'Data D',
-                areaStyle: {
-                  color: new echarts.graphic.RadialGradient(0.1, 0.6, 1, [
-                    {
-                      color: 'rgba(255, 145, 124, 0.1)',
-                      offset: 0
-                    },
-                    {
-                      color: 'rgba(255, 145, 124, 0.9)',
-                      offset: 1
-                    }
-                  ])
-                }
-              }
-            ]
-          }
+
         ]
       };
+    var Emotions_option =  {
+      title: {
+        text: '公关危机指数'
+      },
+      series: [
+        {
+          type: 'gauge',
+          title: {
+            text: 'My Chart Title',
+            left: 'center',
+            top: 'top'
+          },
+          axisLine: {
+            lineStyle: {
+              width: 30,
+              color: [
+                [0.3, '#67e0e3'],
+                [0.7, '#37a2da'],
+                [1, '#fd666d']
+              ]
+            }
+          },
+          
+          pointer: {
+            itemStyle: {
+              color: 'auto'
+            }
+          },
+          axisTick: {
+            distance: -30,
+            length: 8,
+            lineStyle: {
+              color: '#fff',
+              width: 2
+            }
+          },
+          splitLine: {
+            distance: -30,
+            length: 30,
+            lineStyle: {
+              color: '#fff',
+              width: 4
+            }
+          },
+          axisLabel: {
+            color: 'inherit',
+            distance: 40,
+            fontSize: 20
+          },
+          detail: {
+            valueAnimation: true,
+            formatter: '{value} 低风险',
+            color: 'inherit'
+          },
+          data: [
+            {
+              value: 40
+            }
+          ]
+        }
+      ]
+    };
     return (
         <div>
             {/* 第一行：词云 + 两个柱状图 */}
@@ -309,7 +428,7 @@ export default function WeiboPage(props) {
                 </div>
                 <div className='echart-container-3'>
                     <ReactECharts
-                        option={option_Aly}
+                        option={option_Figure_Aly}
                         style={{
                             height: "40vh",
                             width: "32vw",
@@ -328,27 +447,20 @@ export default function WeiboPage(props) {
             {/* 第二行：列表 */}
             <div className='overview-row'>
                 <div className='echart-container-3'>
-                    <PostList data={weiboText} title={"Most Popular Overall Weibo Posts"} source={"Weibo"}/>
+                    <PostList data={WeiboText_data} title={"up主热门视频"} source={"Chris 的军事基地"}/>
                 </div>
                 <div className='echart-container-3'>
-                    <PostList data={tweetPositiveText} title={"Most Popular Positive Weibo Posts"} source={"Weibo"}/>
+                  <ReactECharts option={Emotions_option} title = "公关危机指数" 
+                      style={{
+                            height: "40vh",
+                            width: "32vw",
+                        }}/>
                 </div>
                 <div className='echart-container-3'>
-                    <PostList data={tweetNegativeText} title={"Most Popular Negative Weibo Posts"} source={"Weibo"}/>
+                    <PostList data={Comment_Text_data} title={"Most Popular Negative Weibo Posts"} source={"恶意评论"}/>
                 </div>
             </div>
             
-
-            {/* 第三行：地图 */}
-            <div className='echart-container-4'>
-                <ReactECharts
-                    option={map_option}
-                    style={{
-                        height: "60vh",
-                        width: "90vw",
-                    }} 
-                />
-            </div>
             
         </div>
     )
