@@ -297,11 +297,11 @@ export default function WeiboPage(props) {
         radar: [
           {
             indicator: [
-              { text: 'Indicator1' },
-              { text: 'Indicator2' },
-              { text: 'Indicator3' },
-              { text: 'Indicator4' },
-              { text: 'Indicator5' }
+              { text: '社交' },
+              { text: '消费' },
+              { text: '交流' },
+              { text: '积极' },
+              { text: '兴趣' }
             ],
             center: ['50%', '50%'],
             radius: 120,
@@ -457,7 +457,7 @@ export default function WeiboPage(props) {
                         }}/>
                 </div>
                 <div className='echart-container-3'>
-                    <PostList data={Comment_Text_data} title={"Most Popular Negative Weibo Posts"} source={"恶意评论"}/>
+                    <PostList data={Comment_Text_data} title={"Most Negative Posts"} source={"恶意评论"}/>
                 </div>
             </div>
             
